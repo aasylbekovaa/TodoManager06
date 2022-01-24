@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todomanager06.databinding.FragmentBoardBinding;
+import com.example.todomanager06.interfaces.ItemClickListener;
+import com.example.todomanager06.interfaces.LongClickListener;
 import com.example.todomanager06.model.ViewPagerModel;
 
 import java.util.ArrayList;
@@ -15,10 +17,13 @@ import java.util.ArrayList;
 public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.ViewPagerHolder> {
     ArrayList<ViewPagerModel> listPager;
     ItemClickListener listener;
+    LongClickListener longClickListener;
 
-    public ViewPagerAdapter(ArrayList<ViewPagerModel> listPager, ItemClickListener listener) {
+    public ViewPagerAdapter(ArrayList<ViewPagerModel> listPager, ItemClickListener listener, LongClickListener longClickListener) {
         this.listPager = listPager;
         this.listener = listener;
+        this.longClickListener = longClickListener;
+
     }
 
     @NonNull
@@ -56,6 +61,5 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.View
                     listener.itemClick();
                 }
             });
-
         }}
 }

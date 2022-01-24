@@ -17,12 +17,16 @@ import com.example.todomanager06.R;
 import com.example.todomanager06.client.ViewPagerClient;
 import com.example.todomanager06.databinding.FragmentBoardBinding;
 import com.example.todomanager06.databinding.FragmentMainBoardBinding;
+import com.example.todomanager06.interfaces.ItemClickListener;
+import com.example.todomanager06.interfaces.LongClickListener;
 import com.example.todomanager06.model.ViewPagerModel;
 
 import java.util.ArrayList;
 
 
-public class MainBoardFragment extends Fragment  implements  ItemClickListener{
+public class MainBoardFragment extends Fragment implements ItemClickListener {
+    LongClickListener longClickListener;
+    ItemClickListener listener;
     private FragmentMainBoardBinding binding;
     ViewPagerAdapter adapter;
     ArrayList<ViewPagerModel> list = new ArrayList<>();
@@ -42,23 +46,31 @@ public class MainBoardFragment extends Fragment  implements  ItemClickListener{
         getData();
 
     }
+
     private void checkOnShow() {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("shared_prefs", Context.MODE_PRIVATE);
         boolean isShow = sharedPreferences.getBoolean("isShow", false);
         if (isShow)
             Navigation.findNavController(requireView()).navigate(R.id.homeFragment);
     }
+
     private void getData() {
         list = ViewPagerClient.getPagerlist();
-        adapter = new ViewPagerAdapter(list,this);
+        adapter = new ViewPagerAdapter(list, listener, longClickListener);
         binding.viewpager.setAdapter(adapter);
         binding.dotsIndicator.setViewPager2(binding.viewpager);
+
+    }
+
+    @Override
+    public void onItemClick(int position) {
+
     }
 
     @Override
     public void itemClick() {
         Navigation.findNavController(requireView()).navigate(R.id.homeFragment);
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("shared_prefs", Context.MODE_PRIVATE);
-        sharedPreferences.edit().putBoolean("isShow",true).apply();
+        sharedPreferences.edit().putBoolean("isShow", true).apply();
     }
 }
